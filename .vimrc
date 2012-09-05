@@ -1,104 +1,71 @@
+let mapleader = ","
+call pathogen#infect()
+
 " Stupid shift key fixes
 map:W :w
 map:WQ :wq
 map:wQ :wq
 map:Q :q
+
+syntax on
+filetype plugin indent on
+set number
+set ruler
+set nowrap
+
+" Easy move to front and back
 map L $
 map H ^
-
-map T gt
-
-"imap <tab> <c-p>
-" disable arrow keys
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-
+" Keys for moving between windows
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
-set ls=2
-set scrolloff=5
-set wildmenu
-set wildmode=list:longest,full
-" disable beeping
-set vb t_vb=
-set hls
-
-"searching
+" Incremental search, i.e. highlight search terms in realtime
 set incsearch
+set hls
 set ignorecase
 set smartcase
 
-set nocompatible
-syntax on
-filetype plugin indent on
-
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
-set showmode
-
-set number
-set cindent
-set tabstop=2
-set shiftwidth=2
+" Indentation and soft tabs
 set expandtab
-set nowrap
-let mapleader = ","
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set autoindent
+
+" ctags
+" set where to recursively look for tag file
+set tags+=tags;~/
+
+" Bash like autocomplete with Tab
+set wildmenu
+set wildmode=list:longest,full
+
+" Show file name
+set ls=2
+" Show contextual lines when at the edges
+set scrolloff=5
+" disable beeping
+set vb t_vb=
+set pastetoggle=<F2>
+set foldenable
+set nocompatible
 
 set backupdir=~/.vim/swp/backup
 set directory=~/.vim/swp/tmp
-au BufRead,BufNewFile *.scss set filetype=sass
-au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
-
-inoremap <F6> :set nowrap<CR>
-inoremap <F7> :set wrap<CR>
-nnoremap <F6> :set nowrap<CR>
-nnoremap <F7> :set wrap<CR>
-
-" Set where to recursively look for tag file
-" (it is actually located at ~/)
-set tags+=tags;~/
-
-" go to previous file
-nnoremap <leader><leader> <c-^>
 
 " remove trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
 
+" colors
 " status bar coloring
 highlight StatusLine ctermfg=119 ctermbg=0
 "improve autocomplete menu color
 highlight Pmenu ctermbg=238 gui=bold
 highlight PmenuSel ctermbg=1 gui=bold
 highlight Search ctermbg=darkgrey ctermfg=white
-"highlight CursorLine cterm=NONE ctermbg=8
-"set cursorline
-
-" set colors for comments
-"hi Comment      ctermfg=21
-
-" Plugins can be in their own subdirectors in bundle.
-" E.g. :
-" cd ~/.vim/bundle
-" git clone git://github.com/tpope/vim-fugitive.git
-call pathogen#infect()
-
-" from JANUS
-" https://github.com/carlhuda/janus/blob/master/janus/vim/core/before/plugin/mappings.vim
-" switch buffers
-nmap <silent> ,. :bnext<CR>
-nmap <silent> ,m :bprev<CR>
-" switch tab
-nmap <silent> ;' :tabnext<CR>
-nmap <silent> ;l :tabprev<CR>
-" cd to directory of file in buffer
-nmap <silent> <leader>cd :lcd %:h<CR>
-" find merge conflict markers
-nmap <silent> <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
 " expands open command with directory of current file
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -106,6 +73,10 @@ map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
+
+" switch tab
+nmap <silent> ;' :tabnext<CR>
+nmap <silent> ;l :tabprev<CR>
 
 vmap <leader>bb :Tabularize /
 vmap <leader>vv :Tabularize /=><CR>
@@ -118,5 +89,10 @@ set winheight=10
 set winminheight=10
 set winheight=999
 
+" go to previous file
+nnoremap <leader><leader> <c-^>
+
 "dont scan included files for complete
 set complete-=i
+
+au BufRead,BufNewFile *.scss set filetype=sass
